@@ -1,9 +1,13 @@
-//
-// Exposing the operation engine as a standalone API (separate from OCW).
-//
-// Copyright (c) The Dojo Foundation 2011. All Rights Reserved.
-// Copyright (c) IBM Corporation 2008, 2011. All Rights Reserved.
-//
+/**
+ * Exposing the operation engine as a standalone API (separate from OpenCoweb).
+ *
+ * Copyright (c) The Dojo Foundation 2011. All Rights Reserved.
+ * Copyright (c) IBM Corporation 2008, 2011. All Rights Reserved.
+ */
+
+if ("function" !== typeof define)
+	var define = require("amdefine")(module);
+
 /*jslint white:false, bitwise:true, eqeqeq:true, immed:true, nomen:false,
   onevar:false, plusplus:false, undef:true, browser:true, devel:true,
   forin:false, sub:false*/
@@ -24,25 +28,55 @@ define([
 	}
 
 	/**
-	  * Creates an object that interfaces to an OperationEngine.
-	  *
-	  * The public API is as follows:
-	  *
-	  *  - localEvent(): Local peers should call this when a local data
-	  *    data structure has changed. The returned JSON object should be
-	  *    forwarded to remote peers unchanged.
-	  *
-	  *  - remoteEvent(): Local peers should call this to have the local engine
-	  *    process a remote peer's change. The JSON object passed to remoteEvent
-	  *    must be the exact JSON object returned by the remote peer's call to
-	  *    localEvent(). Furthermore, remoteEvent takes a second integer
-	  *    argument that specifies the given operation's total order. Typically,
-	  *    some central server will decide the total order. The total order
-	  *    must be provided by the client of this OT API.
-	  *
-	  *  - syncOutbound(): TODO
-	  *  - syncInbound(): TODO
-	  */
+	 * Creates an object that interfaces to an OperationEngine.
+	 *
+	 * The public API is as follows:
+	 *
+	 *  - {JSON object} createOp(topic, value, type, position)
+	 *    Applications must call this to create an opaque object that the
+	 *    OTEngine can understand. Specifically, calls to localEvent require
+	 *    as an argument an object returned from createOp.
+	 *
+	 *  - {JSON object} localEvent(op):
+	 *    Local peers must call this when a local data structure has changed.
+	 *    The returned JSON object should be forwarded to remote peers
+	 *    unchanged.
+	 *
+	 *  - {JSON object} remoteEvent(op, order):
+	 *    Local peers must call this to have the local engine process a remote
+	 *    peer's change. The JSON object passed to remoteEvent must be the
+	 *    exact JSON object returned by the remote peer's call to localEvent.
+	 *    Furthermore, remoteEvent takes a second integer argument that
+	 *    specifies the given operation's total order. Typically, some central
+	 *    server will decide the total order. The total order must be provided
+	 *    by the application of this OT API by some unspecified means.
+	 *
+	 *  - {JSON object} syncOutbound(void):
+	 *    This should be called periodically by the application to retrieve
+	 *    local internal engine state (context vector). The returned object
+	 *    must be forwarded to all other remote peers. The suggested interval
+	 *    for calling this method is every ten seconds.
+	 *
+	 *  - void syncInbound(state):
+	 *    Applications should call this method when they receive a remote
+	 *    peer's internal engine state (the context vector returned from the
+	 *    remote peer's syncOutbound call).
+	 *
+	 *  - boolean purge(void):
+	 *    Applications should call this to purge internal engine state. The
+	 *    engine's history buffer is garbage collected. Returns whether or not
+	 *    the engine was purged.
+	 *
+	 *  - boolean isStable(void):
+	 *    Returns whether or not the OTEngine is in a "valid" state. This means
+	 *    whether or not calls to localEvent, etc will continue to succeed.
+	 *    If the engine is not in a valid state, then calling localEvent, etc
+	 *    will be a noop. An invalid state means that the local data can no
+	 *    longer guaranteed to be in sync with that of remote peers.
+	 *
+	 *    TODO provide API examples
+	 *
+	 */
 	var OTEngine = function(id) {
 		this._engine = new OperationEngine(id);
 		this._engine.freezeSite(id);
@@ -52,11 +86,11 @@ define([
 	var proto = OTEngine.prototype;
 
 	/**
-	  * Call this periodically to retrieve the local engine's context vector
-	  * to send to remote peers.
-	  *
-	  * @return context vector to send to the server, or false on error
-	  */
+	 * Call this periodically to retrieve the local engine's context vector
+	 * to send to remote peers.
+	 *
+	 * @return context vector to send to the server, or false on error
+	 */
 	proto.syncOutbound = function() {
 		if (!this._engine || !this._engineStable)
 			return false;
@@ -64,14 +98,14 @@ define([
 	};
 
 	/**
-	  * Call this to apply engine syncs from a remote peer. The remote peer will
-	  * have called OTEngine.syncOutbound() to retrieve the engine's context
-	  * vector.
-	  *
-	  * @param site from site
-	  * @param sites remote sites context vector
-	  * @return whether or not local engine was synced
-	  */
+	 * Call this to apply engine syncs from a remote peer. The remote peer will
+	 * have called OTEngine.syncOutbound() to retrieve the engine's context
+	 * vector.
+	 *
+	 * @param site from site
+	 * @param sites remote sites context vector
+	 * @return whether or not local engine was synced
+	 */
 	proto.syncInbound = function(site, sites) {
 		// Ignore our own engine syncs.
 		if (site == this._engine.siteId)
@@ -86,10 +120,10 @@ define([
 	};
 
 	/**
-	  * Attempts to purge the OT engine.
-	  *
-	  * @return whether or not the engine was purged
-	  */
+	 * Attempts to purge the OT engine.
+	 *
+	 * @return whether or not the engine was purged
+	 */
 	proto.purge = function() {
 		if (!this._engine || !this._engineStable)
 			return false;
@@ -103,25 +137,25 @@ define([
 	};
 
 	/**
-	  * Returns whether or not this engine is in a "valid" state.
-	  */
+	 * Returns whether or not this engine is in a "valid" state.
+	 */
 	proto.isStable = function() {
 		return this._engineStable;
 	}
 
 	/**
-	  * Create an object that can be used with OTEngine.sendOp(). All four
-	  * arguments must be specified.
-	  *
-	  * type must be one of insert, update, or delete.
-	  * position must be >= 0
-	  *
-	  * @param topic
-	  * @param value
-	  * @param type
-	  * @param position
-	  * @return object that can be passed to OTEngine.sendOp()
-	  */
+	 * Create an object that can be used with OTEngine.sendOp(). All four
+	 * arguments must be specified.
+	 *
+	 * type must be one of insert, update, or delete.
+	 * position must be >= 0
+	 *
+	 * @param topic
+	 * @param value
+	 * @param type
+	 * @param position
+	 * @return object that can be passed to OTEngine.sendOp()
+	 */
 	proto.createOp = function(topic, value, type, position) {
 		return {
 			topic: topic,
@@ -132,28 +166,18 @@ define([
 	};
 
 	/**
-	  * Call this after the local document has applied a local operation. The
-	  * operation is applied to the local engine. This function will then return
-	  * a JSON object that can be passed to remote peer's OTEngine.remoteEvent.
-	  *
-	  * 
-	  *
-	  * @param name collaborative object name
-	  * @param localOp
-	  * @return JSON encodable object to send to remote sites, or false on error.
-	  */
+	 * Call this after the local document has applied a local operation. The
+	 * operation is applied to the local engine. This function will then return
+	 * a JSON object that can be passed to remote peer's OTEngine.remoteEvent.
+	 *
+	 * 
+	 *
+	 * @param name collaborative object name
+	 * @param localOp
+	 * @return JSON encodable object to send to remote sites, or false on error.
+	 */
 	// TODO does null type even make sense?
 	proto.localEvent = function(name, localOp) {
-		// if the mutex is held, we're broadcasting and shouldn't be
-		// getting any additional events back, EVER!
-		// (all other events will be generated by the same broadcast
-		// at other locations so we NEVER have to ship them)
-		// assumes synchronous hub operation
-		// stop now if we have no engine
-		// TODO wtf???
-		if (this._mutex) {
-			return false;
-		}
 
 		if (!this._engineStable) {
 			return false;
@@ -168,7 +192,7 @@ define([
 			sites = null,
 			msg,
 			sent,
-			err;`
+			err;
 
 		if (type !== null) {
 			// build operation
@@ -205,16 +229,16 @@ define([
 	};
 
 	/**
-	  * Call this when a remote site wants to synchronize an operation. The
-	  * scenario is that a remote site ferries an operation to this local site,
-	  * then this local site must transform the operation to one that can be
-	  * applied locally (maintaining consistency).
-	  *
-	  * @param remoteOp remote operation to be transformed
-	  * @param order Total order seen by all collaborators.
-	  * @return transformed event that can safely be applied to the local
-	            document
-	  */
+	 * Call this when a remote site wants to synchronize an operation. The
+	 * scenario is that a remote site ferries an operation to this local site,
+	 * then this local site must transform the operation to one that can be
+	 * applied locally (maintaining consistency).
+	 *
+	 * @param remoteOp remote operation to be transformed
+	 * @param order Total order seen by all collaborators.
+	 * @return transformed event that can safely be applied to the local
+	 *         document
+	 */
 	proto.remoteEvent = function(remoteOp, order) {
 		return this._syncInbound(remoteOp.name, remoteOp.topic, remoteOp.value,
 				remoteOp.type, remoteOp.position, remoteOp.site, remoteOp.sites,
@@ -226,6 +250,8 @@ define([
 	 * Processes the data in the local operation engine if required before
 	 * publishing it on the local Hub.
 	 *
+	 * @throws Error if the engine is unable to process the remote event
+	 *
 	 * @param name Collab object name
 	 * @param topic Topic name
 	 * @param value JSON-encoded operation value
@@ -235,7 +261,7 @@ define([
 	 * @param sites Context vector as an array of integers
 	 * @param order Total order seen by all collaborators.
 	 * @return JSON object with information about how to apply the change to
-	           local data structures. false is returned on any error
+	 *         local data structures. false is returned on any error
 	 */
 	proto._syncInbound = function(name, topic, value, type, position, site,
 			sites, order) {
@@ -288,5 +314,7 @@ define([
 	};
 
 	return OTEngine;
-
 });
+
+
+
