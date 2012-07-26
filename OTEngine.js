@@ -28,7 +28,7 @@ define([
 	 *
 	 * The public API is as follows:
 	 *
-	 *  - {JSON object} createOp(topic, value, type, position)
+	 *  - {JSON object} createOp(name, value, type, position)
 	 *    Applications must call this to create an opaque object that the
 	 *    OTEngine can understand. Specifically, calls to localEvent require
 	 *    as an argument an object returned from createOp.
@@ -146,15 +146,15 @@ define([
 	 * type must be one of insert, update, or delete.
 	 * position must be >= 0
 	 *
-	 * @param topic
+	 * @param name
 	 * @param value
 	 * @param type
 	 * @param position
 	 * @return object that can be passed to OTEngine.sendOp()
 	 */
-	proto.createOp = function(topic, value, type, position) {
+	proto.createOp = function(name, value, type, position) {
 		return {
-			topic: topic,
+			name: name,
 			value: value,
 			type: type,
 			position: position
@@ -168,12 +168,11 @@ define([
 	 *
 	 * 
 	 *
-	 * @param name collaborative object name
 	 * @param localOp
 	 * @return JSON encodable object to send to remote sites, or false on error.
 	 */
 	// TODO does null type even make sense?
-	proto.localEvent = function(name, localOp) {
+	proto.localEvent = function(localOp) {
 
 		if (!this._engineStable) {
 			return false;
@@ -182,6 +181,7 @@ define([
 		// unpack event data; be sure to json encode the value before pushing
 		// into op engine to avoid ref sharing with the operation history
 		var position = localOp.position,
+			name = localOp.name,
 			type = localOp.type,
 			value = JSON.stringify(localOp.value),
 			op = null,
@@ -214,7 +214,6 @@ define([
 		/* Construct and return the JSON object that client will send to remote
 		   server. */
 		return {
-			topic: localOp.topic,
 			name : name,
 			value: value,
 			type: type,
@@ -236,7 +235,7 @@ define([
 	 *         document
 	 */
 	proto.remoteEvent = function(remoteOp, order) {
-		return this._syncInbound(remoteOp.name, remoteOp.topic, remoteOp.value,
+		return this._syncInbound(remoteOp.name, remoteOp.value,
 				remoteOp.type, remoteOp.position, remoteOp.site, remoteOp.sites,
 				order);
 	};
@@ -249,7 +248,6 @@ define([
 	 * @throws Error if the engine is unable to process the remote event
 	 *
 	 * @param name Collab object name
-	 * @param topic Topic name
 	 * @param value JSON-encoded operation value
 	 * @param type Operation type
 	 * @param position Operation linear position
@@ -259,7 +257,7 @@ define([
 	 * @return JSON object with information about how to apply the change to
 	 *         local data structures. false is returned on any error
 	 */
-	proto._syncInbound = function(name, topic, value, type, position, site,
+	proto._syncInbound = function(name, value, type, position, site,
 			sites, order) {
 
 		if (!_engineStable)
@@ -271,10 +269,10 @@ define([
 		if (sites && type) {
 			// treat event as a possibly conflicting operation
 			try {
-				op = this._engine.push(false, topic, value, type, position,
+				op = this._engine.push(false, name, value, type, position,
 					site, sites, order);
 			} catch(e) {
-				console.log("topic ",topic);
+				console.log("name ",name);
 				console.log("value ",value);
 				console.log("type ",type);
 				console.log("position ",position);
