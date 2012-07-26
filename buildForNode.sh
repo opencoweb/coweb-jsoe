@@ -22,5 +22,11 @@ mkdir -p ./org/requirejs
 
 fetch $I18N_SRC $I18N_DST
 
-echo "Everything done."
+npm install requirejs
+if [ $? -ne 0 ]; then
+	echo "Could not install requirejs node module! Make sure npm is installed"
+	exit 1;
+fi
+
+echo "Everything worked."
 
