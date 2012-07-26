@@ -25,5 +25,5 @@ clean:
 	rm -rf org/
 
 clean-all: clean
-	rm -rf examples/ Makefile
+	rm -rf examples/ docs/ Makefile
 

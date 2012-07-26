@@ -11,13 +11,29 @@ easily be used with any toolkit that supports AMD loading (eg. Dojo). The OT API
 can also be used with Node.js with the requirejs module for loading the OT
 library.
 
-##Usage
+##Getting started
+
+###Requirements
+
+Currently, the OCW OT API supports Unix-like systems with the following tools.
+
+* make
+* curl
+* Node.js, npm (optional, for using the OT API with Node.js)
+* sphinx docs (optional, for documentation)
 
 ###Getting the code
 
 Application programmers wishing to use the OT API can checkout this project as a
 git repository (or submodule into an already existing git repository), or
 download the code as a tarball and extract into their project.
+
+###Setup
+
+In the root directory of this project, run `make install`. This fetches required
+dependencies (currently, only RequireJSs' i18n library).
+
+##Usage
 
 ###API usage
 
@@ -84,6 +100,14 @@ engine state we are syncing and the remote engine state itself.
 
 It is recommended that each peer distributes its local engine state to remote
 peers every **ten** seconds.
+
+##Documentation
+
+To build the docs, change directory to `docs/` and run a `make html`. The
+documentation relies on Sphinx to build.
+
+Currently, there does not exist a production version of the built documentation
+(i.e. if you want to see it, you must build it yourself).
 
 ##OpenCoweb
 This library was initially started as a part of the
