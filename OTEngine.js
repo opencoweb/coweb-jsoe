@@ -53,7 +53,7 @@ define([
 	 *    must be forwarded to all other remote peers. The suggested interval
 	 *    for calling this method is every ten seconds.
 	 *
-	 *  - void syncInbound(state):
+	 *  - void syncInbound(site, state):
 	 *    Applications should call this method when they receive a remote
 	 *    peer's internal engine state (the context vector returned from the
 	 *    remote peer's syncOutbound call).
