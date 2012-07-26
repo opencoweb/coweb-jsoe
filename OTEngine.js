@@ -5,17 +5,13 @@
  * Copyright (c) IBM Corporation 2008, 2011. All Rights Reserved.
  */
 
-if ("function" !== typeof define)
-	var define = require("amdefine")(module);
-
 /*jslint white:false, bitwise:true, eqeqeq:true, immed:true, nomen:false,
   onevar:false, plusplus:false, undef:true, browser:true, devel:true,
   forin:false, sub:false*/
 /*global define*/
 define([
-	"dojo",
 	"coweb/jsoe/OperationEngine",
-], function(dojo, OperationEngine) {
+], function(OperationEngine) {
 
 	if ("undefined" === typeof console) {
 		var noop = function() {};
