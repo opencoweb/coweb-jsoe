@@ -8,7 +8,6 @@ help:
 	@echo "  install           Installs required dependencies to use the OT API"
 	@echo "  node              Sets up the environment for Node.js support"
 	@echo "  clean             Remove files created by the Makefile"
-	@echo "  clean-all         Cleans the directory to only contain the OT javascript files (will also delete this Makefile)"
 
 install: i18n
 
@@ -23,7 +22,4 @@ node: i18n
 clean:
 	rm -rf node_modules/
 	rm -rf org/
-
-clean-all: clean
-	rm -rf examples/ docs/ Makefile
 
