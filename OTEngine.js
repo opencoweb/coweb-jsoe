@@ -234,7 +234,7 @@ define([
 	 * @return transformed event that can safely be applied to the local
 	 *         document
 	 */
-	proto.remoteEvent = function(remoteOp, order) {
+	proto.remoteEvent = function(order, remoteOp) {
 		return this._syncInbound(remoteOp.name, remoteOp.value,
 				remoteOp.type, remoteOp.position, remoteOp.site, remoteOp.sites,
 				order);
@@ -260,7 +260,7 @@ define([
 	proto._syncInbound = function(name, value, type, position, site,
 			sites, order) {
 
-		if (!_engineStable)
+		if (!this._engineStable)
 			return false;
 
 		var op, event;
