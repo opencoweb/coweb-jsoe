@@ -13,14 +13,14 @@ library.
 
 ##Getting started
 
-###Requirements
+###Sysetm Requirements
 
 Currently, the OCW OT API supports Unix-like systems with the following tools.
 
 * make
 * curl
 * Node.js, npm (optional, for using the OT API with Node.js)
-* sphinx docs (optional, for documentation)
+* sphinx docs (optional, for building documentation)
 
 ###Getting the code
 
@@ -31,9 +31,28 @@ download the code as a tarball and extract into their project.
 ###Setup
 
 In the root directory of this project, run `make install`. This fetches required
-dependencies (currently, only RequireJSs' i18n library).
+dependencies (currently, only RequireJS's i18n library).
 
 ##Usage
+
+###Operational Transform
+
+To get started with operational transform, make sure you understand
+[the basics](http://opencoweb.org/ocwdocs/intro/openg.html) of operational
+transform.
+
+The most important concept to understand is that the API guarantees convergence
+of local data structures as long as the local application 1) sends remote peers
+all local operations and 2) honors all remote operations. The details of the
+operational transform algorithm are hidden entirely from the application
+developer.
+
+In this library, the two requirements coorespond to the
+`OTEngine.localEvent` and `OTEngine.removeEvent` methods, respectively. To
+fulfill the requirements, all local data structure changes must call
+`localEvent` and send the returned object to all other peers, and all received
+remote operations must be passed to `removeEvent`. The transformed operation
+returned by `removeEvent` must be applied exactly to the local data structure.
 
 ###API usage
 
@@ -47,59 +66,6 @@ Each API call returns a data structure (eg. JSON) that should be forwarded to
 other remote peers exactly as is. Remote peers then send this data structure
 through another API call, which returns an operation that should be applied
 to a local copy of the data.
-
-##Requirements
-
-This OT library provides only the
-[operational transform](http://en.wikipedia.org/wiki/Operational_transformation)
-algorithms and exposure to the engine. Communication between remote clients is
-not provided by this library. Thus, the application programmer is responsible
-for the communication mechanism (eg. hosting a central server to ferry data
-between clients).
-
-Example code is provided that creates a Node.js
-server for remote clients to communicate and exchange data, but this is purely
-for demonstration purposes.
-
-###Site Ids
-
-All participating peers must have a unique *site Id* assigned to them. This site
-Id must be an integer value in the range [0, 2^32-1] that can safely be
-represented by all undering agents. The safest and easiest way to assign site
-Ids is with a central server. It is recommended that a counter be used to assign
-increasing Ids starting from zero.
-
-###Total order
-
-The underlying engine algorithm requires that all operations be totally ordered.
-The simplest way to achieve this is for a central entity to arbitrarily provide
-this. For example, the OpenCoweb project has a central server append a unique
-integer to each operation before it sends the operations to other peers.
-
-No two operations should ever be considered *equal*. Even if two operations
-match identically, they should be assigned unique orders. Thus, the total order
-requirement imposed by the OT engine is a little different from the set theory
-total order, since no two elements may be equal.
-
-For optimal engine performance, the total order should be *close* to the
-temporal order that peers generate operations.
-
-###Syncing engine state
-
-Each peer's operation engine maintains an internal data structure that tracks
-each peer's internal engine state. Thus, periodically, peers must distribute
-their local engine state to remote peers. In this and other documents, the
-internal state is sometimes referred to as the engine's *context vector*. The OT
-API provides two methods for this: `syncOutBound` and `syncInBound`.
-
-`syncOutBound` takes no arguments and returns a JSON encodable object. This
-object must be sent to other peers in its exact state.
-
-`syncInBound` takes two arguments, the integer site Id of the remote peer whose
-engine state we are syncing and the remote engine state itself.
-
-It is recommended that each peer distributes its local engine state to remote
-peers every **ten** seconds.
 
 ##Documentation
 

@@ -9,7 +9,7 @@
  *
  */
 var requirejs = require("requirejs");
-var OTServer = require("./OTServer.js");
+var OTServer = require("./NodeOTServer.js");
 
 var define = requirejs.define;
 
@@ -125,7 +125,9 @@ requirejs([
 		}
 	}
 
-	var client = new OTServer.LocalServerConnection("/tmp/ot", engineCb, opCb);
+	try {
+	var client = new OTServer.LocalServerConnection(
+			"/tmp/ot", engineCb, opCb);
 	var ot = new OTEngine(client.getSiteId());
 
 	setInterval(function() {
