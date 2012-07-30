@@ -79,7 +79,6 @@ proto._init = function() {
 		fd = fs.openSync(this._path + "/order", "r");
 	} catch (e) {
 		fs.writeFileSync(this._path + "/order", "0");
-		this._unlock();
 		return;
 	}
 	fs.closeSync(fd);

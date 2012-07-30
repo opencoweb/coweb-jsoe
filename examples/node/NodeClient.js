@@ -15,7 +15,7 @@ var define = requirejs.define;
 
 requirejs.config({
 	nodeRequire : require,
-	baseUrl : "../",
+	baseUrl : "../../",
 	paths : {
 		"coweb/jsoe" : "./",
 	}
@@ -34,6 +34,7 @@ proto.help = function() {
 	process.stdout.write("  a <n> <v> add item to list at specified position\n");
 	process.stdout.write("  d <n>     delete item\n");
 	process.stdout.write("  u <n> <v> update specified item\n");
+	process.stdout.write("  q         quit\n");
 };
 
 proto.add = function(cmd, sendSync) {
@@ -69,7 +70,7 @@ proto.update = function(cmd, sendSync) {
 }
 
 proto.view = function() {
-	console.log(this._data);
+	process.stdout.write(this._data + "\n");
 }
 
 proto.input = function(str) {
@@ -88,6 +89,9 @@ proto.input = function(str) {
 			break;
 		case "v":
 			this.view();
+			break;
+		case "q":
+			process.exit(0);
 			break;
 		default:
 			process.stdout.write("Invalid option...");
@@ -125,9 +129,14 @@ requirejs([
 		}
 	}
 
-	try {
+	var srvPath = process.argv[2];
+	if (!srvPath) {
+		process.stdout.write("Usage: node NodeClient.js <shared data directory>\n");
+		process.exit(1);
+	}
+
 	var client = new OTServer.LocalServerConnection(
-			"/tmp/ot", engineCb, opCb);
+			srvPath, engineCb, opCb);
 	var ot = new OTEngine(client.getSiteId());
 
 	setInterval(function() {
