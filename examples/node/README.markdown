@@ -23,7 +23,7 @@ created). Type `h` to see a list of options.
 
 Open two bash shells and run `node NodeClient.js <path>` in both. In console 1,
 insert *two* at position 0 (`a 0 two`). In console 2, insert *one* at position
-0 (`a 0 one`). In console 1, insert "*three* at position 2 (`a 2 three`). Now,
+0 (`a 0 one`). In console 1, insert *three* at position 2 (`a 2 three`). Now,
 view the list in both consoles (`v`). Both should contain the the three items
 *one*, *two*, and *three* in that order.
 
