@@ -1,3 +1,5 @@
+.. include:: replace.rst
+
 .. OpenCoweb Operational Transformation Engine API documentation master file, created by
    sphinx-quickstart on Thu Jul 26 15:49:18 2012.
    You can adapt this file completely to your liking, but it should at least
@@ -14,11 +16,7 @@ Contents:
    api
    usage
 
+.. rubric:: Other Resources
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+* `GitHub repository`_
 
