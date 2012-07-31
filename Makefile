@@ -2,6 +2,8 @@
 I18N_SRC="http://requirejs.org/docs/release/1.0.0/minified/i18n.js"
 I18N_DST="./org/requirejs/i18n.js"
 
+.PHONY: help install i18n node clean
+
 # Configures/installs necessary components for use with Node.js, etc.
 help:
 	@echo "Please use \`make <target>' where <target> is one of"

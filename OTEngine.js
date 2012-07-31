@@ -166,8 +166,6 @@ define([
 	 * operation is applied to the local engine. This function will then return
 	 * a JSON object that can be passed to remote peer's OTEngine.remoteEvent.
 	 *
-	 * 
-	 *
 	 * @param localOp
 	 * @return JSON encodable object to send to remote sites, or false on error.
 	 */

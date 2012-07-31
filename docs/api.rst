@@ -66,12 +66,17 @@ OTEngine
 	:param integer siteId: site Id unique across all participating peers in the
 		range [0, 2^32-1]
 
-.. js:function:: OTEngine.createOp(topic, value, type, position)
+.. js:function:: OTEngine.createOp(name, value, type, position)
 
-	:param string topic:
-	:param JSON value:
-	:param string type:
-	:param integer position:
+	:param string name: A user defined string indicating what object is being
+	 changed. This string can be used to differentiate changes to two separate
+	 collaborative objects (eg. a collaborative list and a chat app within the
+	 same application). The operational transform engine does not read or write
+	 this parameter.
+	:param JSON value: The value of the item (typically null for a delete).
+	:param string type: One of {"insert", "delete", "update"}
+	:param integer position: Integer position of item in question in one the
+	 dimensional list.
 	:returns: **(OTLocalOperation)**
 
 	Applications must call this to create an opaque object that the OTEngine can

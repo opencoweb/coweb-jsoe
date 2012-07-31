@@ -64,7 +64,7 @@ release = '0.8.3.1-SNAPSHOT'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build']
+exclude_patterns = ['_build', 'replace.rst']
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None

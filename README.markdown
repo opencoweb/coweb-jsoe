@@ -39,7 +39,7 @@ dependencies (currently, only RequireJS's i18n library).
 
 To get started with operational transform, make sure you understand
 [the basics](http://opencoweb.org/ocwdocs/intro/openg.html) of operational
-transform.
+transform. At the very least, read the last paragraph entitled ["A final word"](http://opencoweb.org/ocwdocs/intro/openg.html#a-final-word).
 
 The most important concept to understand is that the API guarantees convergence
 of local data structures as long as the local application 1) sends remote peers
@@ -72,8 +72,13 @@ to a local copy of the data.
 To build the docs, change directory to `docs/` and run a `make html`. The
 documentation relies on Sphinx to build.
 
-Currently, there does not exist a production version of the built documentation
-(i.e. if you want to see it, you must build it yourself).
+A work-in-progress version of the documentation exists online
+[here](http://opencoweb.org/jsoedocs).
+
+##Support
+
+Please report any issues on the
+[GitHub issue tracker](https://github.com/opecoweb/coweb-jsoe/issues).
 
 ##OpenCoweb
 This library was initially started as a part of the
