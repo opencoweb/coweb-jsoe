@@ -37,41 +37,62 @@ proto.help = function() {
 	process.stdout.write("  q         quit\n");
 };
 
+proto._inBounds = function(pos, inc) {
+    if (inc)
+        return 0 <= pos && pos <= this._data.length;
+    else
+        return 0 <= pos && pos < this._data.length;
+};
+
 proto.add = function(cmd, sendSync) {
 	var idx = cmd.indexOf(" ");
 	var pos = parseInt(cmd.substring(0, idx));
 	var val = cmd.substring(idx + 1);
+    if (!this._inBounds(pos, true)) {
+        return -1;
+    }
 	this._data.splice(pos, 0, val);
 	if (sendSync) {
 		var op = this._ot.localEvent(
 				this._ot.createOp("list", val, "insert", pos));
 		this._client.sendOp(op);
 	}
-}
+    return 0;
+};
 
 proto.delete = function(cmd, sendSync) {
-	this._data.splice(parseInt(cmd), 1);
+    var pos = parseInt(cmd);
+    if (!this._inBounds(pos, false)) {
+        return -1;
+    }
+	this._data.splice(pos, 1);
 	if (sendSync) {
 		var op = this._ot.localEvent(
 				this._ot.createOp("list", null, "delete", pos));
 		this._client.sendOp(op);
 	}
-}
+    return 0;
+};
 
 proto.update = function(cmd, sendSync) {
 	var idx = cmd.indexOf(" ");
 	var pos = parseInt(cmd.substring(0, idx));
+	var val = cmd.substring(idx + 1);
+    if (this._inBounds(pos, false)) {
+        return -1;
+    }
 	this._data[pos] = cmd.substring(idx + 1);
 	if (sendSync) {
 		var op = this._ot.localEvent(
 				this._ot.createOp("list", val, "update", pos));
 		this._client.sendOp(op);
 	}
-}
+    return 0;
+};
 
 proto.view = function() {
 	process.stdout.write(this._data + "\n");
-}
+};
 
 proto.input = function(str) {
 	switch (str.charAt(0)) {
@@ -79,13 +100,16 @@ proto.input = function(str) {
 			this.help();
 			break;
 		case "a":
-			this.add(str.substring(2), true);
+			if (this.add(str.substring(2), true))
+                process.stdout.write("Invalid index");
 			break;
 		case "d":
-			this.delete(str.substring(2), true);
+			if (this.delete(str.substring(2), true))
+                process.stdout.write("Invalid index");
 			break;
 		case "u":
-			this.update(str.substring(2), true);
+			if (this.update(str.substring(2), true))
+                process.stdout.write("Invalid index");
 			break;
 		case "v":
 			this.view();

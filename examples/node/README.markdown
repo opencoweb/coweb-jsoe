@@ -5,6 +5,9 @@ First of all, in order to use the OT API with Node.js, you will need to install
 the requirejs module. See the README in the root directory of this project for
 instructions.
 
+Run `npm install requirejs` in this directory so that NodeClient.js can access
+this required module.
+
 ## The example
 
 In this example, clients running on the same machine will collaboratively edit
