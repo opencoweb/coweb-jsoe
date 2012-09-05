@@ -1,0 +1,30 @@
+{
+    "name": "coweb-jsoe",
+    "version": "0.8.3",
+    "author": "The Dojo Foundation",
+    "description": "A standalone version of the the OpenCoweb operational transform engine.",
+    "main": "./OTEngine-npm.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/opencoweb/coweb-jsoe.git"
+    },
+    "keywords": [
+        "operational transform"
+    ],
+    "dependencies": {
+        "requirejs": "2.0.6"
+    },
+    "licenses": [
+        {
+            "type": "BSD",
+            "url": "https://github.com/opencoweb/coweb-jsoe/blob/master/LICENSE"
+        },
+        {
+            "type": "MIT",
+            "url": "https://github.com/opencoweb/coweb-jsoe/blob/master/LICENSE"
+        }
+    ],
+    "engines": {
+        "node": ">=.6"
+    }
+}

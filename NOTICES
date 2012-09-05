@@ -1,0 +1,23 @@
+NOTICES AND INFORMATION
+=======================
+
+OpenCoweb OT API
+
+The Operational Transformation Engine API Library, herein referred to as the
+OpenCoweb OT API, agreement and any applicable information on the web download
+page for OpenCoweb products refers Licensee to this file for details concerning
+notices applicable to code included in the products listed above ("the Program"). 
+
+Packaged builds of the Program located in org/ include the 
+following third-party code that is not covered under the OpenCoweb License:
+
+- RequireJS
+
+The copyright and licenses of these third-party products are reproduced below.
+
+RequireJS i18n 2.0.1
+
+Copyright (c) 2010-2012, The Dojo Foundation All Rights Reserved.
+
+Available via the MIT new BSD license at 
+https://github.com/requirejs/i18n/blob/2.0.1/LICENSE.

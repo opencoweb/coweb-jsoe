@@ -11,8 +11,6 @@
 var requirejs = require("requirejs");
 var OTServer = require("./NodeOTServer.js");
 
-var define = requirejs.define;
-
 requirejs.config({
 	nodeRequire : require,
 	baseUrl : "../../",
