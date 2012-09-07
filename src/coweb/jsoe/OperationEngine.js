@@ -37,6 +37,8 @@ define([
         this.siteCount = 1;
     };
 
+    OperationEngine.VERSION = "0.8.3";
+
     /**
      * Gets the state of this engine instance to seed a new instance.
      *

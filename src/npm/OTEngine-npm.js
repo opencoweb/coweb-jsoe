@@ -3,13 +3,10 @@ var requirejs = require("requirejs");
 
 requirejs.config({
     nodeRequire: require,
-    baseUrl: __dirname,
-    paths: {
-        "coweb/jsoe" : "./"
-    }
+    baseUrl: __dirname
 });
 
-requirejs(["OTEngine"], function(OTEngine) {
+requirejs(["coweb/jsoe/OTEngine"], function(OTEngine) {
     exports.OTEngine = OTEngine;
 });
 
