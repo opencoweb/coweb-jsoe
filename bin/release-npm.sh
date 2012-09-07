@@ -17,6 +17,9 @@ FORCE=false
 for arg in "$@"; do
     if [ "--force" == $arg ]; then
         FORCE=true
+    else
+        echo "Unknown option \"$arg\""
+        exit 1
     fi
 done
 

@@ -15,9 +15,9 @@ following third-party code that is not covered under the OpenCoweb License:
 
 The copyright and licenses of these third-party products are reproduced below.
 
-RequireJS i18n 2.0.1
+RequireJS i18n 1.0.5
 
 Copyright (c) 2010-2012, The Dojo Foundation All Rights Reserved.
 
-Available via the MIT new BSD license at 
-https://github.com/requirejs/i18n/blob/2.0.1/LICENSE.
+Available via the MIT new BSD license at
+https://github.com/jrburke/requirejs/blob/1.0.5/LICENSE.

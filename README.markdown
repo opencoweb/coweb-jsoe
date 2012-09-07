@@ -17,8 +17,6 @@ library.
 
 Currently, the OCW OT API supports Unix-like systems with the following tools.
 
-* make
-* curl
 * Node.js, npm (optional, for using the OT API with Node.js)
 * sphinx docs (optional, for building documentation)
 
@@ -28,10 +26,13 @@ Application programmers wishing to use the OT API can checkout this project as a
 git repository (or submodule into an already existing git repository), or
 download the code as a tarball and extract into their project.
 
-###Setup
+###Code organization
 
-In the root directory of this project, run `make install`. This fetches required
-dependencies (currently, only RequireJS's i18n library).
+ * `/src` The source code lives here.
+ * `/docs` Sphinx documentation.
+ * `/examples` Example code using the OCW OT API.
+ * `/bin` Scripts to build release versions of the OCW OT API.
+ * `/dist` Release versions.
 
 ##Usage
 
@@ -39,7 +40,8 @@ dependencies (currently, only RequireJS's i18n library).
 
 To get started with operational transform, make sure you understand
 [the basics](http://opencoweb.org/ocwdocs/intro/openg.html) of operational
-transform. At the very least, read the last paragraph entitled ["A final word"](http://opencoweb.org/ocwdocs/intro/openg.html#a-final-word).
+transform. At the very least, read the last paragraph entitled
+["A final word"](http://opencoweb.org/ocwdocs/intro/openg.html#a-final-word).
 
 The most important concept to understand is that the API guarantees convergence
 of local data structures as long as the local application 1) sends remote peers

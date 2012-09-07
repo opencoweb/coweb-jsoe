@@ -10,7 +10,7 @@ JSOE_VERSION=${JSOE_VERSION%\"*}
 
 JSOE_ROOT=`pwd`
 TMPDIR=`mktemp -d -t cowebjsoeXXXXXX`
-RELEASE_NAME=jsoe-$JSOE_VERSION
+RELEASE_NAME=coweb-jsoe-$JSOE_VERSION
 RELEASE_TARBALL_DIR=./dist/jsoe
 RELEASE_TARBALL=$RELEASE_TARBALL_DIR/$RELEASE_NAME.tar
 
@@ -18,6 +18,9 @@ FORCE=false
 for arg in "$@"; do
     if [ "--force" == $arg ]; then
         FORCE=true
+    else
+        echo "Unknown option \"$arg\""
+        exit 1
     fi
 done
 
@@ -41,6 +44,7 @@ cd $TMPDIR
 tar -cf $JSOE_ROOT/$RELEASE_TARBALL ./
 echo "Created $RELEASE_TARBALL"
 cd $JSOE_ROOT
+cp -r $TMPDIR/$RELEASE_NAME $RELEASE_TARBALL_DIR
 
 echo "Cleanup temporary files."
 rm -rf $TMPDIR

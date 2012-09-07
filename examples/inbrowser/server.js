@@ -4,23 +4,25 @@ var fs = require("fs");
 var url = require("url");
 var querystring = require("querystring");
 
+var jsoeLoc = "../../dist/jsoe/coweb-jsoe-0.8.3/coweb/jsoe";
+
 var fileList = [
 	["index.html", "index.html"],
 	["config.js", "config.js"],
 	["main.js", "main.js"],
-	["../../org/requirejs/i18n.js", "org/requirejs/i18n.js"],
-	["../../nls/messages.js", "coweb/jsoe/nls/messages.js"],
-	["../../ContextDifference.js", "coweb/jsoe/ContextDifference.js"],
-	["../../ContextVector.js", "coweb/jsoe/ContextVector.js"],
-	["../../ContextVectorTable.js", "coweb/jsoe/ContextVectorTable.js"],
-	["../../DeleteOperation.js", "coweb/jsoe/DeleteOperation.js"],
-	["../../factory.js", "coweb/jsoe/factory.js"],
-	["../../HistoryBuffer.js", "coweb/jsoe/HistoryBuffer.js"],
-	["../../InsertOperation.js", "coweb/jsoe/InsertOperation.js"],
-	["../../Operation.js", "coweb/jsoe/Operation.js"],
-	["../../OperationEngine.js", "coweb/jsoe/OperationEngine.js"],
-	["../../OTEngine.js", "coweb/jsoe/OTEngine.js"],
-	["../../UpdateOperation.js", "coweb/jsoe/UpdateOperation.js"]
+	["../../dist/jsoe/coweb-jsoe-0.8.3/org/requirejs/i18n.js", "org/requirejs/i18n.js"],
+	[jsoeLoc + "/nls/messages.js", "coweb/jsoe/nls/messages.js"],
+	[jsoeLoc + "/ContextDifference.js", "coweb/jsoe/ContextDifference.js"],
+	[jsoeLoc + "/ContextVector.js", "coweb/jsoe/ContextVector.js"],
+	[jsoeLoc + "/ContextVectorTable.js", "coweb/jsoe/ContextVectorTable.js"],
+	[jsoeLoc + "/DeleteOperation.js", "coweb/jsoe/DeleteOperation.js"],
+	[jsoeLoc + "/factory.js", "coweb/jsoe/factory.js"],
+	[jsoeLoc + "/HistoryBuffer.js", "coweb/jsoe/HistoryBuffer.js"],
+	[jsoeLoc + "/InsertOperation.js", "coweb/jsoe/InsertOperation.js"],
+	[jsoeLoc + "/Operation.js", "coweb/jsoe/Operation.js"],
+	[jsoeLoc + "/OperationEngine.js", "coweb/jsoe/OperationEngine.js"],
+	[jsoeLoc + "/OTEngine.js", "coweb/jsoe/OTEngine.js"],
+	[jsoeLoc + "/UpdateOperation.js", "coweb/jsoe/UpdateOperation.js"]
 ];
 var fileContents = {};
 

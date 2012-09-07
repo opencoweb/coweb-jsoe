@@ -12,6 +12,9 @@ In this scenario, the client is the only entity that uses the coweb-jsoe. The
 server exists to facilitate communication among remote clients and fulfill some
 requirements of the OT engine (eg: a total order for operations).
 
+This example uses the 0.8.3 release of coweb-jsoe (in
+dist/jsoe/coweb-jsoe-0.8.3).
+
 ##Running and usage
 
 To run the Node.js server, run `node server.js`. To specify a port to listen on,
