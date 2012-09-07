@@ -1,0 +1,6 @@
+
+Standalone versions of the OT engine go in dist/jsoe. There is a tarball and the
+raw tarball contents for each version released.
+
+NPM packages go in dist/npm.
+

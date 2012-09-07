@@ -8,16 +8,8 @@
  * that the OT API code can use it.
  *
  */
-var requirejs = require("requirejs");
 var OTServer = require("./NodeOTServer.js");
-
-requirejs.config({
-	nodeRequire : require,
-	baseUrl : "../../",
-	paths : {
-		"coweb/jsoe" : "./",
-	}
-});
+var OTEngine = require("coweb-jsoe").OTEngine;
 
 var Processor = function(client, ot, data) {
 	this._client = client;
@@ -127,68 +119,63 @@ proto.ioLoop = function() {
 	process.stdout.write("Enter an option (h for help:): ");
 };
 
-requirejs([
-	"OTEngine",
-], function(OTEngine) {
-	function apply(op) {
-	}
+function apply(op) {
+}
 
-	function engineCb(from, syncs) {
-		ot.syncInbound(from, syncs);
-	}
-	function opCb(order, op) {
-		op = ot.remoteEvent(order, op);
-		switch (op.type) {
-			case "insert":
-				processor.add(op.position + " " + op.value);
-				break;
-			case "delete":
-				processor.delete(op.position);
-				break;
-			case "update":
-				processor.update(op.position + " " + op.value);
-				break;
-		}
-	}
+function engineCb(from, syncs) {
+    ot.syncInbound(from, syncs);
+}
+function opCb(order, op) {
+    op = ot.remoteEvent(order, op);
+    switch (op.type) {
+        case "insert":
+            processor.add(op.position + " " + op.value);
+            break;
+        case "delete":
+            processor.delete(op.position);
+            break;
+        case "update":
+            processor.update(op.position + " " + op.value);
+            break;
+    }
+}
 
-	var srvPath = process.argv[2];
-	if (!srvPath) {
-		process.stdout.write("Usage: node NodeClient.js <shared data directory>\n");
-		process.exit(1);
-	}
+var srvPath = process.argv[2];
+if (!srvPath) {
+    process.stdout.write("Usage: node NodeClient.js <shared data directory>\n");
+    process.exit(1);
+}
 
-	var client = new OTServer.LocalServerConnection(
-			srvPath, engineCb, opCb);
-	var ot = new OTEngine(client.getSiteId());
+var client = new OTServer.LocalServerConnection(
+        srvPath, engineCb, opCb);
+var ot = new OTEngine(client.getSiteId());
 
-	setInterval(function() {
-		ot.purge();
-	}, 10 * 1000);
-	setInterval(function() {
-		client.sendEngineSync(ot.syncOutbound());
-	}, 10 * 1000);
+setInterval(function() {
+    ot.purge();
+}, 10 * 1000);
+setInterval(function() {
+    client.sendEngineSync(ot.syncOutbound());
+}, 10 * 1000);
 
-	process.on("exit", function() {
-		client.exit();
-	});
-	process.on("SIGINT", function() {
-		/* This will trigger the exit event. Without capturing SIGINT, we would
-		   never capture an exit event. */
-		process.exit(0);
-	});
-
-	var processor = new Processor(client, ot, []);
-
-	var stdin = process.stdin;
-	var stdio = process.stdio;
-
-	stdin.resume();
-	stdin.setEncoding("utf-8");
-	stdin.on("data", function(chunk) {
-		processor.input(chunk.substring(0, chunk.length - 1));
-	});
-
-	processor.ioLoop();
-
+process.on("exit", function() {
+    client.exit();
 });
+process.on("SIGINT", function() {
+    /* This will trigger the exit event. Without capturing SIGINT, we would
+        never capture an exit event. */
+    process.exit(0);
+});
+
+var processor = new Processor(client, ot, []);
+
+var stdin = process.stdin;
+var stdio = process.stdio;
+
+stdin.resume();
+stdin.setEncoding("utf-8");
+stdin.on("data", function(chunk) {
+    processor.input(chunk.substring(0, chunk.length - 1));
+});
+
+processor.ioLoop();
 
