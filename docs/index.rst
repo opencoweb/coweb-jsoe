@@ -15,6 +15,7 @@ Contents:
 
    api
    usage
+   development
 
 .. rubric:: Other Resources
 

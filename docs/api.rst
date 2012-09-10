@@ -186,7 +186,7 @@ Alice
 .. sourcecode:: javascript
 
 	/* MyServer is some object that allows Alice to communicate with Bob (not
-	   provided by this API. */
+	   provided by this API). */
 	var server = new MyServer();
 	var collabList = [];
 	var ote = new OTEngine(server.getUniqueId());
@@ -210,7 +210,7 @@ Bob
 .. sourcecode:: javascript
 
 	/* MyServer is some object that allows Bob to communicate with Alice (not
-	   provided by this API. */
+	   provided by this API).*/
 	var server = new MyServer();
 	var collabList = [];
 	var ote = new OTEngine(server.getUniqueId());

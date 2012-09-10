@@ -13,11 +13,10 @@ Requirements
 ============
 
 This OT library provides only the
-[operational transform](http://en.wikipedia.org/wiki/Operational_transformation)
-algorithms and exposure to the engine. Communication between remote clients is
-not provided by this library. Thus, the application programmer is responsible
-for the communication mechanism (eg. hosting a central server to ferry data
-between clients).
+`operational transform`_ algorithms and exposure to the engine. Communication
+between remote clients is not provided by this library. Thus, the application
+programmer is responsible for the communication mechanism (eg. hosting a central
+server to ferry data between clients).
 
 Example code is provided that creates a Node.js
 server for remote clients to communicate and exchange data, but this is purely
@@ -68,3 +67,4 @@ itself.
 It is recommended that each peer distributes its local engine state to remote
 peers every **ten** seconds.
 
+.. _operational transform: http://en.wikipedia.org/wiki/Operational_transformation

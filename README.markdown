@@ -17,6 +17,7 @@ library.
 
 Currently, the OCW OT API supports Unix-like systems with the following tools.
 
+* JavaScript platform - for running the OT code itself
 * Node.js, npm (optional, for using the OT API with Node.js)
 * sphinx docs (optional, for building documentation)
 
@@ -26,13 +27,29 @@ Application programmers wishing to use the OT API can checkout this project as a
 git repository (or submodule into an already existing git repository), or
 download the code as a tarball and extract into their project.
 
+The code is available as a Node.JS module accessible via
+[npm](https://npmjs.org/), module name
+[coweb-jsoe](https://npmjs.org/package/coweb-jsoe).
+
+##Development
+
+This section describes how to setup a development environment to for coweb-jsoe
+development.
+
 ###Code organization
 
  * `/src` The source code lives here.
+   * `/src/coweb/jsoe` coweb-jsoe OT Engine JavaScript source code
+   * `/src/org/requirejs` Contains the i18n requirejs library. See NOTICES.
+   * `/src/npm` Source for Node.JS module.
  * `/docs` Sphinx documentation.
  * `/examples` Example code using the OCW OT API.
  * `/bin` Scripts to build release versions of the OCW OT API.
  * `/dist` Release versions.
+
+###Building
+
+See `/bin/README` for building release versions of coweb-jsoe.
 
 ##Usage
 
