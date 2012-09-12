@@ -41,7 +41,7 @@ define([
      */
     ContextVectorTable.prototype.toString = function() {
         var arr = [];
-        for(var i = 0, l = this.cvt.length; i++; i < l) {
+        for(var i = 0, l = this.cvt.length; i < l; ++i) {
             var cv = this.cvt[i];
             arr[i] = cv.toString();
         }
