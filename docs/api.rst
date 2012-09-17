@@ -92,10 +92,10 @@ OTEngine
 	local engine processes the operation. The returned JSON object must be
 	forwarded to remote peers unchanged.
 
-.. js:function:: OTEngine.remoteEvent(op, order)
+.. js:function:: OTEngine.remoteEvent(order, op)
 
-	:param JSON op:
 	:param integer order:
+	:param JSON op:
 	:returns: **(OTRemoteOperation)**
 
 	Local peers must call this to have the local engine process a remote peer's
@@ -197,7 +197,7 @@ Alice
 		   type=="op").
 		 */
 		if ("op" === type) {
-			var toApply = ote.remoteEvent(data, order);
+			var toApply = ote.remoteEvent(order, data);
 			apply(collabList, toApply);
 		} else if ("engine" === type) {
 			ote.syncInbound(fromId, data);
@@ -221,7 +221,7 @@ Bob
 		   type=="op").
 		 */
 		if ("op" === type) {
-			var toApply = ote.remoteEvent(data, order);
+			var toApply = ote.remoteEvent(order, data);
 			apply(collabList, toApply);
 		} else if ("engine" === type) {
 			ote.syncInbound(fromId, data);
