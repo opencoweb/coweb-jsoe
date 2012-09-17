@@ -38,7 +38,7 @@ define([
 	 *    The returned JSON object should be forwarded to remote peers
 	 *    unchanged.
 	 *
-	 *  - {JSON object} remoteEvent(op, order):
+	 *  - {JSON object} remoteEvent(order, op):
 	 *    Local peers must call this to have the local engine process a remote
 	 *    peer's change. The JSON object passed to remoteEvent must be the
 	 *    exact JSON object returned by the remote peer's call to localEvent.
@@ -90,7 +90,7 @@ define([
 	proto.syncOutbound = function() {
 		if (!this._engine || !this._engineStable)
 			return false;
-		return this._engine.copyContextVector();
+		return this._engine.copyContextVector().sites;
 	};
 
 	/**
@@ -227,8 +227,8 @@ define([
 	 * then this local site must transform the operation to one that can be
 	 * applied locally (maintaining consistency).
 	 *
-	 * @param remoteOp remote operation to be transformed
 	 * @param order Total order seen by all collaborators.
+	 * @param remoteOp remote operation to be transformed
 	 * @return transformed event that can safely be applied to the local
 	 *         document
 	 */

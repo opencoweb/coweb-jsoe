@@ -90,7 +90,7 @@ define([
 	proto.syncOutbound = function() {
 		if (!this._engine || !this._engineStable)
 			return false;
-		return this._engine.copyContextVector();
+		return this._engine.copyContextVector().sites;
 	};
 
 	/**

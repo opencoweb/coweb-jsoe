@@ -75,8 +75,6 @@ define([
         if(!this.xCache) {
             this.xCache = [];
         }
-        // always mutable to start
-        this.immutable = false;
     };
 
     /**
