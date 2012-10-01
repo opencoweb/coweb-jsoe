@@ -233,7 +233,7 @@ define([
 	 *         document
 	 */
 	proto.remoteEvent = function(order, remoteOp) {
-		return this._syncInbound(remoteOp.name, remoteOp.value,
+		return this._doRemote(remoteOp.name, remoteOp.value,
 				remoteOp.type, remoteOp.position, remoteOp.site, remoteOp.sites,
 				order);
 	};
@@ -253,9 +253,9 @@ define([
 	 * @param sites Context vector as an array of integers
 	 * @param order Total order seen by all collaborators.
 	 * @return JSON object with information about how to apply the change to
-	 *         local data structures. false is returned on any error
+	 *         local data structures. false is returned on any error.
 	 */
-	proto._syncInbound = function(name, value, type, position, site,
+	proto._doRemote = function(name, value, type, position, site,
 			sites, order) {
 
 		if (!this._engineStable)
@@ -281,14 +281,16 @@ define([
 			}
 			/* Discard null operations; they should not be sent to app
 			   according to op engine */
-			if(op === null) {return;}
+			if (op === null) 
+                return { type : "noop" };
+
 			/* use newly computed value and position. */
 			value = op.value;
 			position = op.position;
 		} else if(site === this._engine.siteId) {
 			/* op was echoed from server for op engine, but type null means
 			   op engine doesn't care about this message anyway so drop it. */
-			return;
+            return { type : "noop" };
 		}
 
 		if (op) {

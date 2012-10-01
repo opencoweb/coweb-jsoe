@@ -41,8 +41,8 @@ OTRemoteOperation
 
 	.. js:attribute:: OTRemoteOperation.name
 
-		The name of the collaborative object that is being changed. This indicates
-		to the remote peer what data structure to apply this operation to.
+		**(string)** The name of the collaborative object that is being changed.
+		This indicates to the remote peer what data structure to apply this operation to.
 
 	.. js:attribute:: OTRemoteOperation.value
 
@@ -51,7 +51,10 @@ OTRemoteOperation
 
 	.. js:attribute:: OTRemoteOperation.type
 
-		**(string)** One of three values: *insert*, *delete*, or *update*. This
+		**(string)** One of four values: *insert*, *delete*, *update*, or *noop*.
+		*noop* is used to indicate a remote operation has been transformed into
+		a do-nothing operation (e.g. a remote delete becomes a noop whe the
+		local site has already deleted an item).
 
 	.. js:attribute:: OTRemoteOperation.position
 
@@ -96,6 +99,7 @@ OTEngine
 
 	:param integer order:
 	:param JSON op:
+	:throws Exception: On operation engine "errors," typically something serious.
 	:returns: **(OTRemoteOperation)**
 
 	Local peers must call this to have the local engine process a remote peer's
@@ -171,7 +175,7 @@ list).
 
 .. sourcecode:: javascript
 
-    function apply(array, op) {
+	function apply(array, op) {
 		if ("insert" === op.type)
 			array.splice(op.position, 0, op.value);
 		else if ("update" === op.type)
@@ -256,7 +260,7 @@ For example, Alice might use the following interval timer.
 
 .. sourcecode:: javascript
 
-    setInterval(function() {
+	setInterval(function() {
 		var toSend = ote.syncOutbound();
 		server.sendOut(
 			"engine", /* We are sending engine syncs. */
