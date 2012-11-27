@@ -97,7 +97,7 @@ define([
         for(var i=0; i < this.sites.length; i++) {
             var a = this.getSeqForSite(i);
             var b = cv.getSeqForSite(i);
-            if(a-b > 0) {
+            if(a > b) {
                 cd.addRange(i, b+1, a+1);
             }
         }
