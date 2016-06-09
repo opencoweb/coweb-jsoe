@@ -1,5 +1,7 @@
 #Operational Transformation Engine API
 
+## ** *This project is no longer maintained and provided as is.* **
+
 ##About
 
 This project contains the JavaScript source for the operational transformation
